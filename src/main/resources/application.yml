@@ -1,0 +1,16 @@
+server:
+        port: 7055
+spring:
+    jpa:
+        show-sql: true
+        generate-ddl: true
+        hibernate:
+            ddl-auto: create
+    datasource:
+        name: datasourceSAPS
+        url: jdbc:h2:file:~/testMenu
+        username: admin
+        password: 
+        driver-class-name: org.h2.Driver
+swagger:
+    enabled: true
