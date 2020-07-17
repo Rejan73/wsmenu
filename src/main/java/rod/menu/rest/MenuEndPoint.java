@@ -57,4 +57,14 @@ public class MenuEndPoint {
 		
 		return createdIngredient;
 	}
+	
+	@PostMapping("/plats")
+	@Transactional(propagation = Propagation.REQUIRED, readOnly = true)
+	@ResponseBody
+	public Plat createPlat(@RequestBody Plat plat){
+
+		Plat createdPlat = platRepository.save(plat);
+		
+		return createdPlat;
+	}
 }
