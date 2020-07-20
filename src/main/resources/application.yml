@@ -5,10 +5,10 @@ spring:
         show-sql: true
         generate-ddl: true
         hibernate:
-            ddl-auto: create
+            ddl-auto: update
     datasource:
         name: datasourceSAPS
-        url: jdbc:h2:file:~/testMenu
+        url: jdbc:h2:file:/workspace/rds/testMenu
         username: admin
         password: 
         driver-class-name: org.h2.Driver

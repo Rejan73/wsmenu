@@ -1,94 +1,69 @@
 package rod.menu.rest;
 
-import java.util.List;
+import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.transaction.annotation.Propagation;
-import org.springframework.transaction.annotation.Transactional;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import rod.menu.model.Ingredient;
+import rod.menu.model.Menu;
 import rod.menu.model.Plat;
-import rod.menu.repository.IngredientRepository;
+import rod.menu.repository.MenuRepository;
 import rod.menu.repository.PlatRepository;
 
 @RestController
 public class MenuEndPoint {
 	@Autowired
 	PlatRepository platRepository;
-	
+
 	@Autowired
-	IngredientRepository ingredientRepository;
-	
-	@GetMapping("/version")
-	public String getVersion() {
-		return "Rod Menu v1";
-	}
-	
-	@GetMapping("ingredients")
-	@Transactional(propagation = Propagation.REQUIRED, readOnly = true)
-	@ResponseBody
-	public List<Ingredient> findIngredient(){
+	MenuRepository menuRepository;
 
-		List<Ingredient> ingredients = ingredientRepository.findAll();
-	
-		return ingredients;
+	@PostMapping("/menus")
+	public ResponseEntity<Menu> createMenu(@RequestBody String nom) {
+		Menu menuToSave = new Menu();
+		menuToSave.setNom(nom);
+		menuToSave.setCreateDate(LocalDate.now());
+		return new ResponseEntity<>(menuRepository.save(menuToSave), HttpStatus.CREATED);
 	}
 
-	@GetMapping("ingredients/plats/{platId}")
-	@Transactional(propagation = Propagation.REQUIRED, readOnly = true)
+	@GetMapping("menus/{menuId}")
 	@ResponseBody
-	public List<Ingredient> findIngredientByPlatId(@PathVariable Long platId){
-
-		List<Ingredient> ingredients = ingredientRepository.findbyPlatId(platId);
-	
-		return ingredients;
-	}
-	
-	@PostMapping("/plats")
-	@Transactional(propagation = Propagation.REQUIRED, readOnly = true)
-	@ResponseBody
-	public Plat createPlat(@RequestBody Plat plat){
-		
-		Plat platToSave=new Plat();
-		platToSave.setNbPersonne(plat.getNbPersonne());
-		platToSave.setNom(plat.getNom());
-		platToSave.setTyperepas(plat.getTyperepas());
-		Plat createdPlat = platRepository.save(platToSave);
-		
-		for (Ingredient ingredient : plat.getIngredients()) {
-			ingredient.setPlat(createdPlat);
-			Ingredient createdIngredient= ingredientRepository.save(ingredient);
-			ingredient.setId(createdIngredient.getId());
+	public ResponseEntity<Menu> findMenuById(@PathVariable Long menuId) {
+		Optional<Menu> menu = menuRepository.findById(menuId);
+		if (menu.isPresent()) {
+			return new ResponseEntity<>(menu.get(), HttpStatus.OK);
+		} else {
+			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 		}
-		createdPlat.setIngredients(plat.getIngredients());
-		return createdPlat;
 	}
-	
-	@GetMapping("plats")
-	@Transactional(propagation = Propagation.REQUIRED, readOnly = true)
-	@ResponseBody
-	public List<Plat> findPlats(){
 
-		List<Plat> plats = platRepository.findAll();
-		
-		return plats;
-	}
-	
-	@GetMapping("detailplats")
-	@Transactional(propagation = Propagation.REQUIRED, readOnly = true)
-	@ResponseBody
-	public List<Plat> findPlatsWithIngredients(){
-
-		List<Plat> plats = platRepository.findAll();
-		for (Plat plat : plats) {
-			plat.getIngredients();
+	@PutMapping("/menus/{menuId}")
+	public ResponseEntity<Menu> addPlat(@PathVariable Long menuId, @RequestBody Long platId) {
+		Optional<Menu> menu = menuRepository.findById(menuId);
+		if (menu.isPresent()) {
+			Menu menuToUpdate = menu.get();
+			Optional<Plat> platToAdd = platRepository.findById(platId);
+			if (platToAdd.isPresent()) {
+				if (menuToUpdate.getPlats() == null) {
+					menuToUpdate.setPlats(new ArrayList<Plat>());
+				}
+				menuToUpdate.getPlats().add(platToAdd.get());
+			}
+			return new ResponseEntity<>(menuRepository.save(menuToUpdate), HttpStatus.OK);
+		} else {
+			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 		}
-		return plats;
 	}
+
 }
