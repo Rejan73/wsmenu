@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -37,14 +38,31 @@ public class PlatEndPoint {
 		platToSave.setNom(plat.getNom());
 		platToSave.setTyperepas(plat.getTyperepas());
 		Plat createdPlat = platRepository.save(platToSave);
-		
-		for (Ingredient ingredient : plat.getIngredients()) {
-			ingredient.setPlat(createdPlat);
-			Ingredient createdIngredient= ingredientRepository.save(ingredient);
-			ingredient.setId(createdIngredient.getId());
+		if (plat.getIngredients()!=null) {
+			for (Ingredient ingredient : plat.getIngredients()) {
+				ingredient.setPlat(createdPlat);
+				Ingredient createdIngredient= ingredientRepository.save(ingredient);
+				ingredient.setId(createdIngredient.getId());
+			}
+			createdPlat.setIngredients(plat.getIngredients());
 		}
-		createdPlat.setIngredients(plat.getIngredients());
 		return new ResponseEntity<>(createdPlat, HttpStatus.CREATED);
+	}
+
+	@PutMapping("/plats/{platId}")
+	public ResponseEntity<Plat> updatePlat(@PathVariable Long platId, @RequestBody Ingredient ingredient){
+		
+		Optional<Plat> plat = platRepository.findById(platId);
+		if (plat.isPresent()) {
+			Plat platToUpdate=plat.get();
+			ingredient.setPlat(platToUpdate);
+			Ingredient createdIngredient= ingredientRepository.save(ingredient);
+			platToUpdate.getIngredients().add(createdIngredient);
+			return new ResponseEntity<>(platRepository.save(platToUpdate), HttpStatus.OK);
+		} else {
+			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+		}
+		
 	}
 	
 	@GetMapping("/plats/{platId}")
