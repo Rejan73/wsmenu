@@ -2,12 +2,12 @@ package rod.menu.rest;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -48,6 +48,13 @@ public class MenuEndPoint {
 		}
 	}
 
+	@GetMapping("menus")
+	@ResponseBody
+	public ResponseEntity<List<Menu>> findAll() {
+		List<Menu> menus = menuRepository.findAll();
+		return new ResponseEntity<>(menus, HttpStatus.OK);
+	}
+	
 	@PutMapping("/menus/{menuId}")
 	public ResponseEntity<Menu> addPlat(@PathVariable Long menuId, @RequestBody Long platId) {
 		Optional<Menu> menu = menuRepository.findById(menuId);
