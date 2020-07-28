@@ -6,7 +6,7 @@ import lombok.Getter;
 @Getter
 @AllArgsConstructor
 public enum TypeRepas {
-	  entree("entre"),
+	  entree("entree"),
 	  plat("plat"),
 	  dessert("dessert");
 		

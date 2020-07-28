@@ -23,7 +23,7 @@
 		  <li class="nav-item">
 		    <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Plat</a>
 		    <div class="dropdown-menu">
-		      <a class="dropdown-item" href="#">Ajouter un plat</a>
+		      <a class="dropdown-item" href="#" onclick="showFormPlat()">Ajouter un plat</a>
 		      <a class="dropdown-item" href="#" onclick="findAllPlat()">Consulter les plats</a>
 		      <a class="dropdown-item" href="#">Ajouter un ingredient à un plat</a>
 		      <div class="dropdown-divider"></div>
@@ -35,20 +35,34 @@
     </div>
 	<div class="row" >
 	  <div class="col" id="resume"></div>
-	  <div class="col" id="detail"></div>
     </div>
     <div class="row" >
+      <div class="col" id="detail"></div>
 	  <div class="col" id="formIngredient" style="visibility:hidden;">
-	  	<form class="form-inline" action="">
-		  <label for="nom">Ingrédient:</label>
+	  	<form class="form" onSubmit="return putIngredient()">
+		  <label for="nomIngredient">Ingrédient:</label>
 		  <input type="hidden" id="platid">
-		  <input type="text" class="form-control" placeholder="Saissisez l'ingrédient" id="nom">
+		  <input type="text" class="form-control" placeholder="Saissisez l'ingrédient" id="nomIngredient">
 		  <label for="quantite">quantité:</label>
 		  <input type="text" class="form-control" placeholder="Saisissez la quantité" id="quantite">
 		  <select class="form-control" id="typeMesure">
-		    <option>g</option>
-		    <option>ml</option>
-		    <option>u</option>
+		    <option value="poids">g</option>
+		    <option value="quantite">ml</option>
+		    <option value="unite">u</option>
+		  </select>
+		  <button type="submit" class="btn btn-primary">Ajouter</button>
+		</form>
+	  </div>
+	  <div class="col" id="formPlat" style="visibility:hidden;">
+	  	<form class="form" onSubmit="return postPlat()">
+		  <label for="nomPlat">Plat:</label>
+		  <input type="text" class="form-control" placeholder="Saissisez le nom du plat" id="nomPlat">
+		  <label for="quantite">nbPersonne:</label>
+		  <input type="text" class="form-control" placeholder="Saisissez la quantité" id="nbPersonne">
+		  <select class="form-control" id="typeRepas">
+		    <option value="entree">entrée</option>
+		    <option value="plat">plat</option>
+		    <option value="dessert">dessert</option>
 		  </select>
 		  <button type="submit" class="btn btn-primary">Ajouter</button>
 		</form>
