@@ -34,8 +34,25 @@
       </div>
     </div>
 	<div class="row" >
-	<div class="col" id="resume"></div>
-	<div class="col" id="detail"></div>
+	  <div class="col" id="resume"></div>
+	  <div class="col" id="detail"></div>
+    </div>
+    <div class="row" >
+	  <div class="col" id="formIngredient" style="visibility:hidden;">
+	  	<form class="form-inline" action="">
+		  <label for="nom">Ingrédient:</label>
+		  <input type="hidden" id="platid">
+		  <input type="text" class="form-control" placeholder="Saissisez l'ingrédient" id="nom">
+		  <label for="quantite">quantité:</label>
+		  <input type="text" class="form-control" placeholder="Saisissez la quantité" id="quantite">
+		  <select class="form-control" id="typeMesure">
+		    <option>g</option>
+		    <option>ml</option>
+		    <option>u</option>
+		  </select>
+		  <button type="submit" class="btn btn-primary">Ajouter</button>
+		</form>
+	  </div>
     </div>
   
 </div>
