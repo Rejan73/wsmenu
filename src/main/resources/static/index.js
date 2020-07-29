@@ -1,4 +1,4 @@
-
+//GESTION DES MENUS
 function findMenu(id){
 	 hideAll();
 	 $.ajax({
@@ -6,7 +6,8 @@ function findMenu(id){
 	 }).then(function(data){
 		 var msg="";
 		 data.plats.forEach(element => msg+="<li class=\"list-group-item\">"+element.nom+"</li>");
-		 document.getElementById("detail").innerHTML="Détail "+data.nom+"<br><ul class=\"list-group\">"+msg+"</ul>";
+		 document.getElementById("detail").innerHTML="Détail "+data.nom+"<a href=\"#\" onclick=\"showFormAjoutPlat("+data.id+")\">+</a><br/><ul class=\"list-group\">"+msg+"</ul>";
+		 document.getElementById("detail").style.visibility = "visible";
 	 });
 }
 
@@ -23,6 +24,39 @@ function findAllMenu(){
 	
 }
 
+function showFormMenu(){
+	document.getElementById("formMenu").style.visibility = "visible";
+}
+
+function postMenu(){
+	dataToSend=document.getElementById("nomMenu").value
+	$.ajax({
+	    type: "POST",
+	    url: "/menus/",
+	    contentType: "application/json",
+	    data: dataToSend,
+	success: function(data) {
+		hideAll();
+		findAllMenu();
+	  }
+	});
+}
+
+function addPlatToMenu(idMenu,idPlat){
+	dataToSend="\""+idPlat+"\""
+	$.ajax({
+	    type: "PUT",
+	    url: "/menus/"+idMenu,
+	    contentType: "application/json",
+	    data: dataToSend,
+	success: function(data) {
+		findMenu(idMenu);
+	  }
+	});
+}
+
+
+//GESTION DES PLATS
 function findAllPlat(){
 	hideAll();
 	$.ajax({
@@ -82,12 +116,27 @@ function postPlat(){
 		findAllPlat();
 	  }
 	});
-	
 }
+
+function showFormAjoutPlat(idMenu){
+	$.ajax({
+		 url: "/plats"
+	 }).then(function(data){
+		 var msg="";
+		 data.forEach(element => msg+="<li class=\"list-group-item\" onclick=\"addPlatToMenu("+idMenu+","+element.id+")\">"+ element.nom+"</li>");
+		 document.getElementById("formAddPlatToMenu" ).innerHTML="Liste des Plats : <br/><ul class=\"list-group\">"+msg+"</ul>";
+		 document.getElementById("formAddPlatToMenu").style.visibility = "visible";
+	 });	
+}
+
+
 
 function hideAll() {
   document.getElementById("detail").style.visibility = "hidden";
   document.getElementById("formPlat").style.visibility = "hidden";
+  document.getElementById("formMenu").style.visibility = "hidden";
   document.getElementById("formIngredient").style.visibility = "hidden";
+  document.getElementById("formAddPlatToMenu").style.visibility = "hidden";
+  
 }	
 

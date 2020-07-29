@@ -65,7 +65,9 @@ public class MenuEndPoint {
 				if (menuToUpdate.getPlats() == null) {
 					menuToUpdate.setPlats(new ArrayList<Plat>());
 				}
-				menuToUpdate.getPlats().add(platToAdd.get());
+				if (!menuToUpdate.getPlats().contains(platToAdd.get())){
+					menuToUpdate.getPlats().add(platToAdd.get());
+				}
 			}
 			return new ResponseEntity<>(menuRepository.save(menuToUpdate), HttpStatus.OK);
 		} else {
