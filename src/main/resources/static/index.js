@@ -6,7 +6,7 @@ function findMenu(id){
 	 }).then(function(data){
 		 var msg="";
 		 data.plats.forEach(element => msg+="<li class=\"list-group-item\">"+element.nom+"</li>");
-		 document.getElementById("detail").innerHTML="Détail "+data.nom+"<a href=\"#\" onclick=\"showFormAjoutPlat("+data.id+")\">+</a><br/><ul class=\"list-group\">"+msg+"</ul>";
+		 document.getElementById("detail").innerHTML="Détail "+data.nom+"<br/><a href=\"#\" onclick=\"showFormAjoutPlat("+data.id+")\">Ajouter un plat</a><a href=\"#\" onclick=\"findIngredientsByMenu("+data.id+")\"><br/>Courses à faire</a><br/><br/><ul class=\"list-group\">"+msg+"</ul>";
 		 document.getElementById("detail").style.visibility = "visible";
 	 });
 }
@@ -55,6 +55,18 @@ function addPlatToMenu(idMenu,idPlat){
 	});
 }
 
+
+function findIngredientsByMenu(id){
+	 hideAll();
+	 $.ajax({
+		 url: "/menus/"+id+"/ingredients"
+	 }).then(function(data){
+		 var msg="";
+		 data.forEach(element => msg+="<li class=\"list-group-item\">"+element.nom+" : "+ element.quantite+element.typeMesure+"</li>");
+		 document.getElementById("detail").innerHTML="Liste ingredients : <br/><ul class=\"list-group\">"+msg+"</ul>";
+		 document.getElementById("detail").style.visibility = "visible";
+	 });
+}
 
 //GESTION DES PLATS
 function findAllPlat(){

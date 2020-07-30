@@ -2,6 +2,7 @@ package rod.menu.rest;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Optional;
 
@@ -16,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import rod.menu.model.Ingredient;
 import rod.menu.model.Menu;
 import rod.menu.model.Plat;
 import rod.menu.repository.MenuRepository;
@@ -74,5 +76,25 @@ public class MenuEndPoint {
 			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 		}
 	}
-
+	@GetMapping("menus/{menuId}/ingredients")
+	@ResponseBody
+	public ResponseEntity<List<Ingredient>> findIngredientsMenuById(@PathVariable Long menuId) {
+		Optional<Menu> menu = menuRepository.findById(menuId);
+		if (menu.isPresent()) {
+			HashMap<String, Ingredient> ingredients=new HashMap<>();
+			for (Plat plat : menu.get().getPlats()) {
+				for (Ingredient ingredient : plat.getIngredients()) {
+					if (ingredients.containsKey(ingredient.getNom())){
+						Ingredient ingredientToUpdate = ingredients.get(ingredient.getNom());
+						ingredientToUpdate.setQuantite(ingredientToUpdate.getQuantite()+ingredient.getQuantite());
+					}else {
+						ingredients.put(ingredient.getNom(), ingredient);
+					}
+				}	
+			}
+			return new ResponseEntity<>(new ArrayList<>(ingredients.values()), HttpStatus.OK);
+		} else {
+			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+		}
+	}
 }
