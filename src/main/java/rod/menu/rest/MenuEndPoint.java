@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import lombok.extern.slf4j.Slf4j;
 import rod.menu.model.Ingredient;
 import rod.menu.model.Menu;
 import rod.menu.model.Plat;
@@ -24,6 +25,7 @@ import rod.menu.repository.MenuRepository;
 import rod.menu.repository.PlatRepository;
 
 @RestController
+@Slf4j
 public class MenuEndPoint {
 	@Autowired
 	PlatRepository platRepository;
@@ -86,9 +88,11 @@ public class MenuEndPoint {
 				for (Ingredient ingredient : plat.getIngredients()) {
 					if (ingredients.containsKey(ingredient.getNom())){
 						Ingredient ingredientToUpdate = ingredients.get(ingredient.getNom());
+						log.error("INGREDIENT id{}:id{} {}:av {} + {}",ingredient.getId(),ingredientToUpdate.getId(), ingredient.getNom(),ingredient.getQuantite(),ingredientToUpdate.getQuantite() );
 						ingredientToUpdate.setQuantite(ingredientToUpdate.getQuantite()+ingredient.getQuantite());
+
 					}else {
-						ingredients.put(ingredient.getNom(), ingredient);
+						ingredients.put(""+ingredient.getNom(), ingredient);
 					}
 				}	
 			}

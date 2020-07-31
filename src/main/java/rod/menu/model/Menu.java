@@ -9,6 +9,8 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
@@ -34,7 +36,10 @@ public class Menu {
 	
 	private String nom;
 	
-	@ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+	@ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+	@JoinTable( name = "T_Menus_Plats_Associations",
+    joinColumns = @JoinColumn( name = "idMenu" ),
+    inverseJoinColumns = @JoinColumn( name = "idPlat" ) )	
 	private List<Plat> plats;
 	
 	
