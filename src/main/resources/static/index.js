@@ -149,6 +149,5 @@ function hideAll() {
   document.getElementById("formMenu").style.visibility = "hidden";
   document.getElementById("formIngredient").style.visibility = "hidden";
   document.getElementById("formAddPlatToMenu").style.visibility = "hidden";
-  
 }	
 
