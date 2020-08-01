@@ -14,13 +14,7 @@ function findPlat(id){
 	$.ajax({
 		 url: "/plats/"+id
 	 }).then(function(data){
-		 var detailPlat="<h3>Détail "+data.nom+"</h3><br/>";
-		 detailPlat+="<a href=\"#\" onclick=\"showFormIngredient("+data.id+")\">Ajouter un ingrédient</a>";
-		 detailPlat+="<br><ul class=\"list-group\">";
-		 data.ingredients.forEach(element => detailPlat+="<li class=\"list-group-item\" onclick=\"removeIngredientToPlat("+data.id+","+element.id+")\">"+element.nom+" : "+element.quantite+" "+element.typeMesure+"</li>");
-		 detailPlat+="</ul>";
-		 
-		 document.getElementById("divDetailPlat" ).innerHTML=detailPlat;
+		 document.getElementById("divDetailPlat" ).innerHTML=generateTable3("Détail "+data.nom, data.ingredients,"showFormIngredient","removeIngredientToPlat",data.id);
 		 document.getElementById("divDetailPlat").style.visibility = "visible";
 	 });
 }

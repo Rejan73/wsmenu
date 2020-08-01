@@ -5,17 +5,12 @@ function findMenu(id){
 		 url: "/menus/"+id
 	 }).then(function(data){
 		 var detailMenu="<h3>Détail "+data.nom+"</h3>";
-		 detailMenu+="<a href=\"#\" onclick=\"showFormAjoutPlat("+data.id+")\">Ajouter un plat</a>";
-		 detailMenu+="<br/><a href=\"#\" onclick=\"findIngredientsByMenu("+data.id+")\">Courses à faire</a>";
+		 detailMenu+="<a href=\"#\" onclick=\"showFormAjoutPlat("+data.id+")\"><span class=\"fa fa-plus\"></span> Ajouter un plat</a>";
+		 detailMenu+="<br/><a href=\"#\" onclick=\"findIngredientsByMenu("+data.id+")\"><span class=\"fa fa-search\"></span> Courses à faire</a>";
 		
-		 var detailPlat="<h3>Liste des plats </h3><ul class=\"list-group\">";
-		 data.plats.forEach(element => detailPlat+="<li class=\"list-group-item\" onclick=\"removePlatToMenu("+id+","+element.id+")\">"+element.nom+"</li>");
-		 detailPlat+="</ul>";
-		 
-		 
 		 document.getElementById("divDetailMenu").innerHTML=detailMenu;
 		 document.getElementById("divDetailMenu").style.visibility = "visible";
-		 document.getElementById("divDetailPlat").innerHTML=detailPlat;
+		 document.getElementById("divDetailPlat" ).innerHTML=generateTable2("Liste des plats", data.plats,"findPlat","removePlatToMenu",data.id);
 		 document.getElementById("divDetailPlat").style.visibility = "visible";
 	 });
 }
