@@ -4,10 +4,18 @@ function findMenu(id){
 	 $.ajax({
 		 url: "/menus/"+id
 	 }).then(function(data){
-		 var msg="";
-		 data.plats.forEach(element => msg+="<li class=\"list-group-item\">"+element.nom+"</li>");
-		 document.getElementById("detail").innerHTML="Détail "+data.nom+"<br/><a href=\"#\" onclick=\"showFormAjoutPlat("+data.id+")\">Ajouter un plat</a><a href=\"#\" onclick=\"findIngredientsByMenu("+data.id+")\"><br/>Courses à faire</a><br/><br/><ul class=\"list-group\">"+msg+"</ul>";
-		 document.getElementById("detail").style.visibility = "visible";
+		 var detailMenu="<h3>Détail "+data.nom+"</h3>";
+		 detailMenu+="<a href=\"#\" onclick=\"showFormAjoutPlat("+data.id+")\">Ajouter un plat</a>";
+		 detailMenu+="<br/><a href=\"#\" onclick=\"findIngredientsByMenu("+data.id+")\">Courses à faire</a>";
+		
+		 var detailPlat="<h3>Liste des plats </h3><ul class=\"list-group\">";
+		 data.plats.forEach(element => detailPlat+="<li class=\"list-group-item\">"+element.nom+"</li>");
+		 detailPlat+="</ul>";
+
+		 document.getElementById("divDetailMenu").innerHTML=detailMenu;
+		 document.getElementById("divDetailMenu").style.visibility = "visible";
+		 document.getElementById("divDetailPlat").innerHTML=detailPlat;
+		 document.getElementById("divDetailPlat").style.visibility = "visible";
 	 });
 }
 
@@ -16,16 +24,19 @@ function findAllMenu(){
 	$.ajax({
 		 url: "/menus"
 	 }).then(function(data){
-		 var msg="";
-		 data.forEach(element => msg+="<li class=\"list-group-item\" onclick=\"findMenu("+element.id+")\">"+ element.nom+"</li>");
-		 document.getElementById("detail" ).innerHTML="Liste des Menus : <br/><ul class=\"list-group\">"+msg+"</ul>";
-		 document.getElementById("detail").style.visibility = "visible";
+		 var detailMenu="<h3>Liste des Menus : </h3><br/><ul class=\"list-group\">";
+		 data.forEach(element => detailMenu+="<li class=\"list-group-item\" onclick=\"findMenu("+element.id+")\">"+ element.nom+"</li>");
+		 detailMenu+="</ul>";
+		 
+		 document.getElementById("divDetailMenu" ).innerHTML=detailMenu;
+		 document.getElementById("divDetailMenu").style.visibility = "visible";
 	 });	
 	
 }
 
 function showFormMenu(){
-	document.getElementById("formMenu").style.visibility = "visible";
+	findAllMenu();
+	document.getElementById("divFormMenu").style.visibility = "visible";
 }
 
 function postMenu(){
@@ -57,15 +68,31 @@ function addPlatToMenu(idMenu,idPlat){
 
 
 function findIngredientsByMenu(id){
-	 hideAll();
+	document.getElementById("divFormAddPlatToMenu").style.visibility = "hidden";
 	 $.ajax({
 		 url: "/menus/"+id+"/ingredients"
 	 }).then(function(data){
-		 var msg="";
-		 data.forEach(element => msg+="<li class=\"list-group-item\">"+element.nom+" : "+ element.quantite+element.typeMesure+"</li>");
-		 document.getElementById("detail").innerHTML="Liste ingredients : <br/><ul class=\"list-group\">"+msg+"</ul>";
-		 document.getElementById("detail").style.visibility = "visible";
+		 var detailPlat="<h3>Liste ingredients : </h3><br/><ul class=\"list-group\">";
+		 data.forEach(element => detailPlat+="<li class=\"list-group-item\">"+element.nom+" : "+ element.quantite+element.typeMesure+"</li>");
+		 detailPlat+="</ul>";
+		 
+		 document.getElementById("divDetailPlat").innerHTML=detailPlat;
+		 document.getElementById("divDetailPlat").style.visibility = "visible";
 	 });
+}
+
+function showFormAjoutPlat(idMenu){
+	findMenu(idMenu);
+	$.ajax({
+		 url: "/plats"
+	 }).then(function(data){
+		 var formAddPlatToMenu="<h3>Liste des Plats à ajouter : </h3><br/><ul class=\"list-group\">";
+		 data.forEach(element => formAddPlatToMenu+="<li class=\"list-group-item\" onclick=\"addPlatToMenu("+idMenu+","+element.id+")\">"+ element.nom+"</li>");
+		 formAddPlatToMenu+="</ul>";
+		 
+		 document.getElementById("divFormAddPlatToMenu" ).innerHTML=formAddPlatToMenu;
+		 document.getElementById("divFormAddPlatToMenu").style.visibility = "visible";
+	 });	
 }
 
 //GESTION DES PLATS
@@ -74,10 +101,12 @@ function findAllPlat(){
 	$.ajax({
 		 url: "/plats"
 	 }).then(function(data){
-		 var msg="";
-		 data.forEach(element => msg+="<li class=\"list-group-item\" onclick=\"findPlat("+element.id+")\">"+ element.nom+"</li>");
-		 document.getElementById("detail" ).innerHTML="Liste des Plats : <br/><ul class=\"list-group\">"+msg+"</ul>";
-		 document.getElementById("detail").style.visibility = "visible";
+		 var detailPlat="<h3>Liste des Plats : </h3><br/><ul class=\"list-group\">";
+		 data.forEach(element => detailPlat+="<li class=\"list-group-item\" onclick=\"findPlat("+element.id+")\">"+ element.nom+"</li>");
+		 detailPlat+="</ul>";
+		 
+		 document.getElementById("divDetailPlat" ).innerHTML=detailPlat;
+		 document.getElementById("divDetailPlat").style.visibility = "visible";
 	 });
 }
 
@@ -86,15 +115,20 @@ function findPlat(id){
 	$.ajax({
 		 url: "/plats/"+id
 	 }).then(function(data){
-		 var msg="";
-		 data.ingredients.forEach(element => msg+="<li class=\"list-group-item\">"+element.nom+" : "+element.quantite+" "+element.typeMesure+"</li>");
-		 document.getElementById("detail" ).innerHTML="Détail "+data.nom+"<a href=\"#\" onclick=\"showFormIngredient("+data.id+")\">+</a><br><ul class=\"list-group\">"+msg+"</ul>";
-		 document.getElementById("detail").style.visibility = "visible";
+		 var detailPlat="<h3>Détail "+data.nom+"</h3><br/>";
+		 detailPlat+="<a href=\"#\" onclick=\"showFormIngredient("+data.id+")\">Ajouter un ingrédient</a>";
+		 detailPlat+="<br><ul class=\"list-group\">";
+		 data.ingredients.forEach(element => detailPlat+="<li class=\"list-group-item\">"+element.nom+" : "+element.quantite+" "+element.typeMesure+"</li>");
+		 detailPlat+="</ul>";
+		 
+		 document.getElementById("divDetailPlat" ).innerHTML=detailPlat;
+		 document.getElementById("divDetailPlat").style.visibility = "visible";
 	 });
 }
 function showFormIngredient(id){
+	findPlat(id);
 	document.getElementById("platid").value=id;
-	document.getElementById("formIngredient").style.visibility = "visible";
+	document.getElementById("divFormIngredient").style.visibility = "visible";
 }
 
 function putIngredient(){
@@ -105,7 +139,7 @@ function putIngredient(){
 	    contentType: "application/json",
 	    data: dataToSend,
 	success: function(data) {
-		document.getElementById("formIngredient").style.visibility = "hidden";
+		document.getElementById("divFormIngredient").style.visibility = "hidden";
 		findPlat(document.getElementById("platid").value)
 	  }
 	});
@@ -113,7 +147,8 @@ function putIngredient(){
 }
 
 function showFormPlat(){
-	document.getElementById("formPlat").style.visibility = "visible";
+	findAllPlat();
+	document.getElementById("divFormPlat").style.visibility = "visible";
 }
 
 function postPlat(){
@@ -124,30 +159,21 @@ function postPlat(){
 	    contentType: "application/json",
 	    data: dataToSend,
 	success: function(data) {
-		hideAll();
 		findAllPlat();
 	  }
 	});
 }
 
-function showFormAjoutPlat(idMenu){
-	$.ajax({
-		 url: "/plats"
-	 }).then(function(data){
-		 var msg="";
-		 data.forEach(element => msg+="<li class=\"list-group-item\" onclick=\"addPlatToMenu("+idMenu+","+element.id+")\">"+ element.nom+"</li>");
-		 document.getElementById("formAddPlatToMenu" ).innerHTML="Liste des Plats : <br/><ul class=\"list-group\">"+msg+"</ul>";
-		 document.getElementById("formAddPlatToMenu").style.visibility = "visible";
-	 });	
-}
+
 
 
 
 function hideAll() {
-  document.getElementById("detail").style.visibility = "hidden";
-  document.getElementById("formPlat").style.visibility = "hidden";
-  document.getElementById("formMenu").style.visibility = "hidden";
-  document.getElementById("formIngredient").style.visibility = "hidden";
-  document.getElementById("formAddPlatToMenu").style.visibility = "hidden";
+  document.getElementById("divDetailMenu").style.visibility = "hidden";
+  document.getElementById("divDetailPlat").style.visibility = "hidden";
+  document.getElementById("divFormPlat").style.visibility = "hidden";
+  document.getElementById("divFormMenu").style.visibility = "hidden";
+  document.getElementById("divFormIngredient").style.visibility = "hidden";
+  document.getElementById("divFormAddPlatToMenu").style.visibility = "hidden";
 }	
 
