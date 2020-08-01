@@ -98,4 +98,22 @@ public class PlatEndPoint {
 		}
 	}
 
+	@DeleteMapping("/plats/{idPlat}/ingredients/{idIngredient}")
+	public ResponseEntity<HttpStatus> removeIngredient(@PathVariable long idPlat,@PathVariable long idIngredient) {
+		try {
+			Optional<Plat> plat = platRepository.findById(idPlat);
+			Optional<Ingredient> ingredientToDelete = ingredientRepository.findById(idIngredient);
+			if (plat.isPresent() && ingredientToDelete.isPresent()) {
+				plat.get().getIngredients().remove(ingredientToDelete.get());
+				platRepository.save(plat.get());
+				ingredientRepository.delete(ingredientToDelete.get());
+				return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+			}else {
+				return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+			}
+		} catch (Exception e) {
+			return new ResponseEntity<>(HttpStatus.EXPECTATION_FAILED);
+		}
+	}
+	
 }

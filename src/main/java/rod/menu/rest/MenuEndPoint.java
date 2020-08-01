@@ -9,6 +9,7 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -59,8 +60,8 @@ public class MenuEndPoint {
 		return new ResponseEntity<>(menus, HttpStatus.OK);
 	}
 	
-	@PutMapping("/menus/{menuId}")
-	public ResponseEntity<Menu> addPlat(@PathVariable Long menuId, @RequestBody Long platId) {
+	@PutMapping("/menus/{menuId}/plats/{platId}")
+	public ResponseEntity<Menu> addPlat(@PathVariable Long menuId, @PathVariable Long platId) {
 		Optional<Menu> menu = menuRepository.findById(menuId);
 		if (menu.isPresent()) {
 			Menu menuToUpdate = menu.get();
@@ -78,6 +79,24 @@ public class MenuEndPoint {
 			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 		}
 	}
+	
+	@DeleteMapping("/menus/{menuId}/plats/{platId}")
+	public ResponseEntity<Menu> removePlat(@PathVariable Long menuId, @PathVariable Long platId) {
+		Optional<Menu> menu = menuRepository.findById(menuId);
+		if (menu.isPresent()) {
+			Menu menuToUpdate = menu.get();
+			Optional<Plat> platToRemove = platRepository.findById(platId);
+			if (platToRemove.isPresent()) {
+				if (menuToUpdate.getPlats() != null) {
+					menuToUpdate.getPlats().remove(platToRemove.get());
+				}
+			}
+			return new ResponseEntity<>(menuRepository.save(menuToUpdate), HttpStatus.OK);
+		} else {
+			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+		}
+	}
+	
 	@GetMapping("menus/{menuId}/ingredients")
 	@ResponseBody
 	public ResponseEntity<List<Ingredient>> findIngredientsMenuById(@PathVariable Long menuId) {
@@ -99,6 +118,22 @@ public class MenuEndPoint {
 			return new ResponseEntity<>(new ArrayList<>(ingredients.values()), HttpStatus.OK);
 		} else {
 			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+		}
+	}
+	@DeleteMapping("/menus/{id}")
+	public ResponseEntity<HttpStatus> deleteMenu(@PathVariable("id") long menuId) {
+		try {
+			Optional<Menu> menu = menuRepository.findById(menuId);
+			if (menu.isPresent()) {
+				menu.get().getPlats().clear();
+				menuRepository.save(menu.get());
+				menuRepository.deleteById(menuId);
+				return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+			} else {
+				return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+			}
+		} catch (Exception e) {
+			return new ResponseEntity<>(HttpStatus.EXPECTATION_FAILED);
 		}
 	}
 }

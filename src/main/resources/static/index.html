@@ -7,6 +7,7 @@
   <script src="js/jquery-1.12.4.min.js"></script>
   <link rel="stylesheet" type="text/css" href="bootstrap.min.css">
   <link rel="stylesheet" type="text/css" href="menu.css" />
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
 </head>
 <body>
 <div class="wrapper">
@@ -21,10 +22,10 @@
                 <a href="#homeSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Gestion des Menus</a>
                 <ul class="collapse list-unstyled" id="homeSubmenu">
                     <li>
-                        <a href="#" onclick="findAllMenu()">Consulter les menus</a>
+                        <a href="#" onclick="findAllMenu()"><span class="fa fa-search"></span> Consulter les menus</a>
                     </li>
                     <li>
-                        <a href="#" onclick="showFormMenu()">Ajouter un menu</a>
+                        <a href="#" onclick="showFormMenu()"><span class="fa fa-plus"></span> Ajouter un menu</a>
                     </li>
                 </ul>
             </li>
@@ -32,10 +33,10 @@
       		 <a href="#pageSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Gestion des Plats</a>
                 <ul class="collapse list-unstyled" id="pageSubmenu">
                     <li>
-                        <a href="#" onclick="findAllPlat()">Consulter les plats</a>
+                        <a href="#" onclick="findAllPlat()"><span class="fa fa-search"></span> Consulter les plats</a>
                     </li>
                     <li>
-                        <a href="#" onclick="showFormPlat()">Ajouter un plat</a>
+                        <a href="#" onclick="showFormPlat()"><span class="fa fa-plus"></span> Ajouter un plat</a>
                     </li>
                 </ul>
             </li>
@@ -48,8 +49,7 @@
             <div class="container-fluid">
 
                 <button type="button" id="sidebarCollapse" class="btn btn-primary">
-                    <i class="fas fa-align-left"></i>
-                    <span>Toggle Sidebar</span>
+                    <span class="fa fa-arrow-left"></span> Toggle Sidebar
                 </button>
             </div>
   </nav>
@@ -107,7 +107,9 @@
 
 <script src="js/popper.min.js"></script>
 <script src="js/bootstrap.min.js"></script>
-<script src="index.js"></script>
+<script src="js/index.js"></script>
+<script src="js/menu.js"></script>
+<script src="js/plat.js"></script>
 <script type="text/javascript">
 $(document).ready(function () {
 
