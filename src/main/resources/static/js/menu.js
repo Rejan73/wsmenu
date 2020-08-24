@@ -56,14 +56,19 @@ function addPlatToMenu(idMenu,idPlat){
 	});
 }
 function removePlatToMenu(idMenu,idPlat){
-	$.ajax({
-	    type: "DELETE",
-	    url: "/menus/"+idMenu+"/plats/"+idPlat,
-	    contentType: "application/json",
-	success: function(data) {
-		findMenu(idMenu);
-	  }
-	});
+	if (confirm("Etes-vous sûr ?")){
+		$.ajax({
+	      type: "DELETE",
+	      url: "/menus/"+idMenu+"/plats/"+idPlat,
+	      contentType: "application/json",
+		success: function(data) {
+			findMenu(idMenu);
+		  },
+			error: function(data) {
+				alert("Error lors de la suppression")
+			  }
+		});
+	}
 }
 
 
@@ -98,14 +103,19 @@ function showFormAjoutPlat(idMenu){
 }
 
 function deleteMenu(idMenu){
-	$.ajax({
-	    type: "DELETE",
-	    url: "/menus/"+idMenu,
-	    contentType: "application/json",
-
-	success: function(data) {
-		findAllMenu()
-	  }
-	});
+	if (confirm("Etes-vous sûr ?")){
+		$.ajax({
+		    type: "DELETE",
+		    url: "/menus/"+idMenu,
+		    contentType: "application/json",
+	
+		success: function(data) {
+			findAllMenu()
+		  },
+		error: function(data) {
+			alert("Error lors de la suppression")
+		  }
+		});
+	}
 }
 

@@ -58,17 +58,19 @@ function postPlat(){
 }
 
 function deletePlat(idPlat){
-	$.ajax({
-	    type: "DELETE",
-	    url: "/plats/"+idPlat,
-	    contentType: "application/json",
-	success: function(data) {
-		findAllPlat()
-	  },
-	error: function(data) {
-		alert("Error lors de la suppression")
-	  }
-	});
+	if (confirm("Etes-vous sûr ?")){
+		$.ajax({
+		    type: "DELETE",
+		    url: "/plats/"+idPlat,
+		    contentType: "application/json",
+		success: function(data) {
+			findAllPlat()
+		  },
+		error: function(data) {
+			alert("Error lors de la suppression")
+		  }
+		});
+	}
 }
 
 function removeIngredientToPlat(idPlat,idIngredient){
