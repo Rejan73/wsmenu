@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import rod.menu.model.EventSearch;
 import rod.menu.model.Ingredient;
 import rod.menu.model.Plat;
 import rod.menu.repository.IngredientRepository;
@@ -108,9 +109,8 @@ public class PlatEndPoint {
 	}
 	
 	@PostMapping("/plats/events")
-	public ResponseEntity<List<Plat>> searchByEvent(@RequestBody Instant begin, @RequestBody Instant end){
-
-		List<Plat> plats = platRepository.findByEventsBetween(begin, end);
+	public ResponseEntity<List<Plat>> searchByEvent(@RequestBody EventSearch eventSearch){
+		List<Plat> plats = platRepository.findByEventsBetween(eventSearch.getBeginEvent(), eventSearch.getEndEvent());
 		if (plats.isEmpty()) {
 	        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
 	    }
