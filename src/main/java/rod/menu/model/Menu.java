@@ -1,6 +1,6 @@
 package rod.menu.model;
 
-import java.time.LocalDate;
+import java.time.Instant;
 import java.util.List;
 
 import javax.persistence.CascadeType;
@@ -41,8 +41,7 @@ public class Menu {
     joinColumns = @JoinColumn( name = "idMenu" ),
     inverseJoinColumns = @JoinColumn( name = "idPlat" ) )	
 	private List<Plat> plats;
-	
-	
-	private LocalDate createDate; 
+		
+	private Instant createDate; 
 	
 }

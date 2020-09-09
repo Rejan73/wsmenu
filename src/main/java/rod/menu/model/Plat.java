@@ -1,8 +1,11 @@
 package rod.menu.model;
 
+import java.time.Instant;
+import java.time.LocalDate;
 import java.util.List;
 
 import javax.persistence.CascadeType;
+import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
@@ -11,8 +14,8 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonAutoDetect.Visibility;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -39,6 +42,10 @@ public class Plat {
 	@OneToMany(mappedBy = "plat", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
 	private List<Ingredient> ingredients;
 	
+	@ElementCollection  
+	private List<Instant> events;
+	
+	private Instant createDate;
 	
 	@Override
 	public int hashCode() {

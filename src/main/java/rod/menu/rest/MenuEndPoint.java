@@ -1,6 +1,6 @@
 package rod.menu.rest;
 
-import java.time.LocalDate;
+import java.time.Instant;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -38,7 +38,7 @@ public class MenuEndPoint {
 	public ResponseEntity<Menu> createMenu(@RequestBody String nom) {
 		Menu menuToSave = new Menu();
 		menuToSave.setNom(nom);
-		menuToSave.setCreateDate(LocalDate.now());
+		menuToSave.setCreateDate(Instant.now());
 		return new ResponseEntity<>(menuRepository.save(menuToSave), HttpStatus.CREATED);
 	}
 

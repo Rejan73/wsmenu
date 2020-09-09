@@ -1,5 +1,7 @@
 package rod.menu.rest;
 
+import java.time.Instant;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -65,6 +67,23 @@ public class PlatEndPoint {
 		
 	}
 	
+	@PutMapping("/plats/{platId}/events")
+	public ResponseEntity<Plat> addEventPlat(@PathVariable Long platId, @RequestBody Instant event){
+		
+		Optional<Plat> plat = platRepository.findById(platId);
+		if (plat.isPresent()) {
+			Plat platToUpdate=plat.get();
+			if (platToUpdate.getEvents()==null) {
+				platToUpdate.setEvents(new ArrayList<Instant>());
+			}
+			platToUpdate.getEvents().add(event);
+			return new ResponseEntity<>(platRepository.save(platToUpdate), HttpStatus.OK);
+		} else {
+			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+		}
+		
+	}
+	
 	@GetMapping("/plats/{platId}")
 	@Transactional(propagation = Propagation.REQUIRED, readOnly = true)
 	@ResponseBody
@@ -78,7 +97,7 @@ public class PlatEndPoint {
 		}
 	}
 	
-	@GetMapping("plats")
+	@GetMapping("/plats")
 	public ResponseEntity<List<Plat>> findPlats(){
 
 		List<Plat> plats = platRepository.findAll();
@@ -87,6 +106,17 @@ public class PlatEndPoint {
 	    }
 		return new ResponseEntity<>(plats, HttpStatus.OK);
 	}
+	
+	@PostMapping("/plats/events")
+	public ResponseEntity<List<Plat>> searchByEvent(@RequestBody Instant begin, @RequestBody Instant end){
+
+		List<Plat> plats = platRepository.findByEventsBetween(begin, end);
+		if (plats.isEmpty()) {
+	        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+	    }
+		return new ResponseEntity<>(plats, HttpStatus.OK);
+	}
+	
 	
 	@DeleteMapping("/plats/{id}")
 	public ResponseEntity<HttpStatus> deletePlat(@PathVariable("id") long id) {
