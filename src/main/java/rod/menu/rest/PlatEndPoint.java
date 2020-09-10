@@ -146,4 +146,20 @@ public class PlatEndPoint {
 		}
 	}
 	
+	@DeleteMapping("/plats/{idPlat}/events")
+	public ResponseEntity<HttpStatus> removePlateEvent(@PathVariable long idPlat,@RequestBody Instant instantToRemove) {
+		try {
+			Optional<Plat> plat = platRepository.findById(idPlat);
+			if (plat.isPresent() ) {
+				plat.get().getEvents().remove(instantToRemove);
+				platRepository.save(plat.get());
+				return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+			}else {
+				return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+			}
+		} catch (Exception e) {
+			return new ResponseEntity<>(HttpStatus.EXPECTATION_FAILED);
+		}
+	}
+	
 }
