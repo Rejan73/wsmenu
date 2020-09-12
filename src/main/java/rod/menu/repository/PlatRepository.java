@@ -11,4 +11,6 @@ public interface PlatRepository extends JpaRepository<Plat, Long>{
 
 	public List<Plat> findByEventsBetween(Instant begin, Instant end);
 	
+	public List<Plat> findByEventsContains(Instant instant);
+	
 }

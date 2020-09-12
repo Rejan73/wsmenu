@@ -1,5 +1,7 @@
 package rod.menu.model;
 
+import java.time.Instant;
+
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -8,6 +10,8 @@ import javax.persistence.JoinColumn;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToOne;
+
+import org.springframework.data.annotation.CreatedDate;
 
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.fasterxml.jackson.annotation.JsonAutoDetect.Visibility;
@@ -46,6 +50,8 @@ public class Ingredient {
     @JoinColumn(name="plat_id")
     private Plat plat;
 	
+	@CreatedDate
+	private Instant createDate; 
 	
 	@Override
 	public int hashCode() {

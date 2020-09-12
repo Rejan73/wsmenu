@@ -1,7 +1,6 @@
 package rod.menu.model;
 
 import java.time.Instant;
-import java.time.LocalDate;
 import java.util.List;
 
 import javax.persistence.CascadeType;
@@ -12,6 +11,8 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
+
+import org.springframework.data.annotation.CreatedDate;
 
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.fasterxml.jackson.annotation.JsonAutoDetect.Visibility;
@@ -45,6 +46,7 @@ public class Plat {
 	@ElementCollection  
 	private List<Instant> events;
 	
+	@CreatedDate
 	private Instant createDate;
 	
 	@Override

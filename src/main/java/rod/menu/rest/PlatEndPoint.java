@@ -108,15 +108,23 @@ public class PlatEndPoint {
 		return new ResponseEntity<>(plats, HttpStatus.OK);
 	}
 	
-	@PostMapping("/plats/events")
-	public ResponseEntity<List<Plat>> searchByEvent(@RequestBody EventSearch eventSearch){
-		List<Plat> plats = platRepository.findByEventsBetween(eventSearch.getBeginEvent(), eventSearch.getEndEvent());
+	@PostMapping("/plats/event")
+	public ResponseEntity<List<Plat>> searchByEvent(@RequestBody Instant instant){
+		List<Plat> plats = platRepository.findByEventsContains(instant);
 		if (plats.isEmpty()) {
 	        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
 	    }
 		return new ResponseEntity<>(plats, HttpStatus.OK);
 	}
 	
+	@PostMapping("/plats/events")
+	public ResponseEntity<List<Plat>> searchByEvents(@RequestBody EventSearch eventSearch){
+		List<Plat> plats = platRepository.findByEventsBetween(eventSearch.getBeginEvent(), eventSearch.getEndEvent());
+		if (plats.isEmpty()) {
+	        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+	    }
+		return new ResponseEntity<>(plats, HttpStatus.OK);
+	}
 	
 	@DeleteMapping("/plats/{id}")
 	public ResponseEntity<HttpStatus> deletePlat(@PathVariable("id") long id) {

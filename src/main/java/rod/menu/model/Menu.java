@@ -13,6 +13,8 @@ import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 
+import org.springframework.data.annotation.CreatedDate;
+
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.fasterxml.jackson.annotation.JsonAutoDetect.Visibility;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
@@ -41,7 +43,8 @@ public class Menu {
     joinColumns = @JoinColumn( name = "idMenu" ),
     inverseJoinColumns = @JoinColumn( name = "idPlat" ) )	
 	private List<Plat> plats;
-		
+	
+	@CreatedDate
 	private Instant createDate; 
 	
 }
