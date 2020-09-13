@@ -155,7 +155,7 @@ public class PlatEndPoint {
 	}
 	
 	@DeleteMapping("/plats/{idPlat}/events")
-	public ResponseEntity<HttpStatus> removePlateEvent(@PathVariable long idPlat,@RequestBody Instant instantToRemove) {
+	public ResponseEntity<HttpStatus> removePlatEvent(@PathVariable long idPlat,@RequestBody Instant instantToRemove) {
 		try {
 			Optional<Plat> plat = platRepository.findById(idPlat);
 			if (plat.isPresent() ) {
