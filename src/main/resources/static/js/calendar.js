@@ -9,9 +9,12 @@ let day = c_date.getDay();
 let month = c_date.getMonth();
 let year = c_date.getFullYear();
 
-(function App() {
+/*(function App() {
+    document.getElementById('app').innerHTML = generateCalendar();   
+})()*/
 
-    const calendar = `<div class="container">
+function generateCalendar(){
+	const calendar = `<div class="container">
         <div class="row">
             <div class="col-sm-10 mx-auto text-center mt-5 page-hero">
                 <h3>Planning Menu</h3>
@@ -85,8 +88,16 @@ let year = c_date.getFullYear();
                 </div>
             </div>
         </div>`;
-    document.getElementById('app').innerHTML = calendar;   
-})()
+	return calendar;
+}
+
+function showCalendar(){
+	clearDiv();
+	document.getElementById("divMain").innerHTML='<div class="col-sm" id="app"></div>';
+	document.getElementById('app').innerHTML = generateCalendar();
+	renderCalendar(month, year);
+}
+
 
 function renderCalendar(m, y) {
     //Month's first weekday
@@ -149,14 +160,18 @@ function renderCalendar(m, y) {
         table.appendChild(row);
     }
 }
-renderCalendar(month, year)
+//renderCalendar(month, year)
 
 
     $(function(){
         function showEvent(eventDate){
         	callandFillPlat(eventDate);
         }
-        function removeEvent(id){
+        function removeEvent(id){function showCalendar(){
+        	clearDiv();
+        	document.getElementById("divMain").innerHTML='<div class="col-sm" id="app"></div>';
+        	App();
+        }
             let storedEvents = JSON.parse(localStorage.getItem('events'));
             if(storedEvents != null){
                 storedEvents = storedEvents.filter( ev => ev.id != id ); 

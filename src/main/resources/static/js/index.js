@@ -1,10 +1,6 @@
-function hideAll() {
-  document.getElementById("divDetailMenu").style.visibility = "hidden";
-  document.getElementById("divDetailPlat").style.visibility = "hidden";
-  document.getElementById("divFormPlat").style.visibility = "hidden";
-  document.getElementById("divFormMenu").style.visibility = "hidden";
-  document.getElementById("divFormIngredient").style.visibility = "hidden";
-  document.getElementById("divFormAddPlatToMenu").style.visibility = "hidden";
+function clearDiv() {
+  document.getElementById("divMain").innerHTML= "";
+  document.getElementById("divUnderMain").innerHTML= "";
 }	
 
 function generateTable(title, data,showFunction, deleteFuncion){

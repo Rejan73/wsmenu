@@ -1,6 +1,6 @@
 //GESTION DES MENUS
 function findMenu(id){
-	 hideAll();
+	 clearDiv();
 	 $.ajax({
 		 url: "/menus/"+id
 	 }).then(function(data){
@@ -8,6 +8,7 @@ function findMenu(id){
 		 detailMenu+="<a href=\"#\" onclick=\"showFormAjoutPlat("+data.id+")\"><span class=\"fa fa-plus\"></span> Ajouter un plat</a>";
 		 detailMenu+="<br/><a href=\"#\" onclick=\"findIngredientsByMenu("+data.id+")\"><span class=\"fa fa-search\"></span> Courses à faire</a>";
 		
+		 document.getElementById("divMain").innerHTML='<div class="col-sm" id="divDetailMenu"></div>';
 		 document.getElementById("divDetailMenu").innerHTML=detailMenu;
 		 document.getElementById("divDetailMenu").style.visibility = "visible";
 		 document.getElementById("divDetailPlat" ).innerHTML=generateTable2("Liste des plats", data.plats,"findPlat","removePlatToMenu",data.id);
@@ -16,10 +17,11 @@ function findMenu(id){
 }
 
 function findAllMenu(){
-	hideAll();
+	clearDiv();
 	$.ajax({
 		 url: "/menus"
 	 }).then(function(data){
+		 document.getElementById("divMain").innerHTML='<div class="col-sm" id="divDetailMenu"></div>';
 		 document.getElementById("divDetailMenu" ).innerHTML=generateTable("Liste des Menus", data,"findMenu","deleteMenu");
 		 document.getElementById("divDetailMenu").style.visibility = "visible";
 	 });	
@@ -27,8 +29,12 @@ function findAllMenu(){
 }
 
 function showFormMenu(){
-	findAllMenu();
-	document.getElementById("divFormMenu").style.visibility = "visible";
+	const formMenu = `<div class="col-sm" id="divFormMenu"><form id="formMenu" class="form" onSubmit="return postMenu()">
+		  <label for="nomMenu">Menu:</label>
+		  <input type="text" class="form-control" placeholder="Saissisez le nom du menu" id="nomMenu">
+		  <button type="submit" class="btn btn-primary">Ajouter</button>
+		</form></div>`;
+	document.getElementById("divUnderMain").innerHTML=formMenu;
 }
 
 function postMenu(){
@@ -39,7 +45,7 @@ function postMenu(){
 	    contentType: "application/json",
 	    data: dataToSend,
 	success: function(data) {
-		hideAll();
+		clearDiv();
 		findAllMenu();
 	  }
 	});

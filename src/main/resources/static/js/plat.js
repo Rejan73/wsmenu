@@ -1,27 +1,45 @@
 //GESTION DES PLATS
-function findAllPlat2(){
-	hideAll();
+function findAllPlat(){
+	clearDiv();
 	$.ajax({
 		 url: "/plats"
 	 }).then(function(data){
+		 document.getElementById("divMain").innerHTML='<div class="col-sm" id="divDetailPlat" style="visibility:hidden;"></div>';
 		 document.getElementById("divDetailPlat" ).innerHTML=generateTable("Liste des Plats", data,"findPlat","deletePlat");
 		 document.getElementById("divDetailPlat").style.visibility = "visible";
 	 });
 }
 
-function findPlat2(id){
-	hideAll();
+function findPlat(id){
+	clearDiv();
 	$.ajax({
 		 url: "/plats/"+id
 	 }).then(function(data){
+		 document.getElementById("divMain").innerHTML='<div class="col-sm" id="divDetailPlat" style="visibility:hidden;"></div>';
 		 document.getElementById("divDetailPlat" ).innerHTML=generateTable3("Détail "+data.nom, data.ingredients,"showFormIngredient","removeIngredientToPlat",data.id);
 		 document.getElementById("divDetailPlat").style.visibility = "visible";
 	 });
 }
 function showFormIngredient(id){
 	findPlat(id);
+	const formIngredient=`<div class="col-sm"  id="divFormIngredient">
+	  	<form id="formIngredient" class="form" onSubmit="return putIngredient()">
+		  <label for="nomIngredient">Ingrédient:</label>
+		  <input type="hidden" id="platid">
+		  <input type="text" class="form-control" placeholder="Saissisez l'ingrédient" id="nomIngredient">
+		  <label for="quantite">quantité:</label>
+		  <input type="text" class="form-control" placeholder="Saisissez la quantité" id="quantite">
+		  <select class="form-control" id="typeMesure">
+		    <option value="g">g</option>
+		    <option value="ml">ml</option>
+		    <option value="u">u</option>
+		  </select>
+		  <button type="submit" class="btn btn-primary">Ajouter</button>
+		</form>
+	</div>`;
+	document.getElementById("divUnderMain").innerHTML=formIngredient;
 	document.getElementById("platid").value=id;
-	document.getElementById("divFormIngredient").style.visibility = "visible";
+
 }
 
 function putIngredient(){
@@ -32,7 +50,6 @@ function putIngredient(){
 	    contentType: "application/json",
 	    data: dataToSend,
 	success: function(data) {
-		document.getElementById("divFormIngredient").style.visibility = "hidden";
 		findPlat(document.getElementById("platid").value)
 	  }
 	});
@@ -40,8 +57,21 @@ function putIngredient(){
 }
 
 function showFormPlat(){
-	findAllPlat();
-	document.getElementById("divFormPlat").style.visibility = "visible";
+	const formPlat = `<div class="col-sm"  id="divFormPlat">
+	  	<form id="formPlat" class="form" onSubmit="return postPlat()">
+		  <label for="nomPlat">Plat:</label>
+		  <input type="text" class="form-control" placeholder="Saissisez le nom du plat" id="nomPlat">
+		  <label for="quantite">nbPersonne:</label>
+		  <input type="text" class="form-control" placeholder="Saisissez la quantité" id="nbPersonne">
+		  <select class="form-control" id="typeRepas">
+		    <option value="entree">entrée</option>
+		    <option value="plat">plat</option>
+		    <option value="dessert">dessert</option>
+		  </select>
+		  <button type="submit" class="btn btn-primary">Ajouter</button>
+		</form>
+	</div>`;
+	document.getElementById("divUnderMain").innerHTML=formPlat;
 }
 
 function postPlat(){
@@ -90,7 +120,8 @@ function removeIngredientToPlat(idPlat,idIngredient){
 function genereLinkGmailCalendar(eventdate,text,details,location,linktext){
 	var dateBegin=eventdate.replaceAll('-','').substring(0, 8)+'T170000Z';
 	var dateEnd=eventdate.replaceAll('-','').substring(0, 8)+'T190000Z';
-	return '<a target="_blank" href="http://www.google.com/calendar/event?action=TEMPLATE&dates='+dateBegin+'%2F'+dateEnd+'&text='+text+'&location='+location+'&details='+details+'">'+linktext+'</a>'
+	var img='<img src="img/calendar.png" title="'+linktext+'" heigth="20" width="20">';
+	return '<a target="_blank" href="http://www.google.com/calendar/event?action=TEMPLATE&dates='+dateBegin+'%2F'+dateEnd+'&text='+text+'&location='+location+'&details='+details+'">'+img+'</a>'
 }
 
 function callandFillPlat(eventdate) {
@@ -99,7 +130,7 @@ function callandFillPlat(eventdate) {
 	searchByEvent(eventdate).then(plats => {
 		  var affichePlats='';
 		  for(var i= 0; i < plats.length; i++){
-			  affichePlats+='<h5 class="text-center">'+plats[i].nom+' '+genereLinkGmailCalendar(eventdate,plats[i].nom,plats[i].nom,"ici","+")+'</h5><br/>';
+			  affichePlats+='<h5 class="text-center">'+plats[i].nom+' '+genereLinkGmailCalendar(eventdate,plats[i].nom,plats[i].nom,"ici","Ajouter au calendrier")+'</h5><br/>';
 			}
 		  $('.events-today').html(affichePlats); 
 	  });
@@ -111,23 +142,3 @@ function  callAddEventPlat(platId,eventdate){
 		callandFillPlat(eventdate);
 	});
 }
-
-
-//Example POST method implementation:
-async function postData(url = '', data = {}) {
-  // Default options are marked with *
-  const response = await fetch(url, {
-    method: 'POST', // *GET, POST, PUT, DELETE, etc.
-    mode: 'cors', // no-cors, *cors, same-origin
-    cache: 'no-cache', // *default, no-cache, reload, force-cache, only-if-cached
-    credentials: 'same-origin', // include, *same-origin, omit
-    headers: {
-      'Content-Type': 'application/json'
-    },
-    redirect: 'follow', // manual, *follow, error
-    referrerPolicy: 'no-referrer', // no-referrer, *no-referrer-when-downgrade, origin, origin-when-cross-origin, same-origin, strict-origin, strict-origin-when-cross-origin, unsafe-url
-    body: JSON.stringify(data) // body data type must match "Content-Type" header
-  });
-  return response.json(); // parses JSON response into native JavaScript objects
-}
-
