@@ -23,18 +23,15 @@
             <p>Hélène is cooking</p>
             
             <li class="active">
-               <a href="#" onclick="showCalendar()"><span class="fa fa-search"></span> Consulter le planning</a>
-            </li>
-            <li>
-                <a href="#homeSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Gestion des Menus</a>
-                <ul class="collapse list-unstyled" id="homeSubmenu">
+            	<a href="#homeSubPlanning" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Gestion des Menus</a>
+                <ul class="collapse list-unstyled" id="homeSubPlanning">
                     <li>
-                        <a href="#" onclick="findAllMenu()"><span class="fa fa-search"></span> Consulter les menus</a>
-                    </li>
+               		<a href="#" onclick="showCalendar()"><span class="fa fa-search"></span> Consulter le planning</a>
+               		</li>
                     <li>
-                        <a href="#" onclick="showFormMenu()"><span class="fa fa-plus"></span> Ajouter un menu</a>
-                    </li>
-                </ul>
+               		<a href="#" onclick="showMenuSemaine()"><span class="fa fa-search"></span> Consulter le menu</a>
+               		</li>
+               	</ul>
             </li>
       		<li>
       		   <a href="#pageSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Gestion des Plats</a>
@@ -76,7 +73,6 @@
 <script src="js/bootstrap.min.js"></script>
 <script src="js/index.js"></script>
 <script src="js/wsmenu.js"></script>
-<script src="js/menu.js"></script>
 <script src="js/plat.js"></script>
 <script src="js/calendar.js"></script>
 <script src="js/autocomplete.js"></script>

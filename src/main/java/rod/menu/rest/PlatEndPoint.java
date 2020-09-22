@@ -37,9 +37,7 @@ public class PlatEndPoint {
 	public ResponseEntity<Plat> createPlat(@RequestBody Plat plat){
 		
 		Plat platToSave=new Plat();
-		platToSave.setNbPersonne(plat.getNbPersonne());
 		platToSave.setNom(plat.getNom());
-		platToSave.setTyperepas(plat.getTyperepas());
 		Plat createdPlat = platRepository.save(platToSave);
 		if (plat.getIngredients()!=null) {
 			for (Ingredient ingredient : plat.getIngredients()) {

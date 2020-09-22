@@ -9,10 +9,6 @@ let day = c_date.getDay();
 let month = c_date.getMonth();
 let year = c_date.getFullYear();
 
-/*(function App() {
-    document.getElementById('app').innerHTML = generateCalendar();   
-})()*/
-
 function generateCalendar(){
 	const calendar = `<div class="container">
         <div class="row">
@@ -20,8 +16,8 @@ function generateCalendar(){
                 <h3>Planning Menu</h3>
             </div>
         </div>
-            <div class="row">
-                <div class="col-sm-6 col-12 d-flex">
+        <div class="row">
+            <div>
                     <div class="card border-0 mt-5 flex-fill">
                         <div class="card-header py-3 d-flex justify-content-between">
                             <span class="prevMonth">&#10096;</span>
@@ -160,10 +156,8 @@ function renderCalendar(m, y) {
         table.appendChild(row);
     }
 }
-//renderCalendar(month, year)
 
-
-    $(function(){
+$(function(){
         function showEvent(eventDate){
         	callandFillPlat(eventDate);
         }

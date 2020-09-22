@@ -142,3 +142,39 @@ function  callAddEventPlat(platId,eventdate){
 		callandFillPlat(eventdate);
 	});
 }
+
+//callAnd('2020-09-01T00:00:00.000Z','2020-09-09T00:00:00.000Z')
+function postSearchPlats(beginEvent,endEvent){
+	beginEvent=document.getElementById("beginEvent").value+'T00:00:00.000Z';
+	endEvent=document.getElementById("endEvent").value+'T00:00:00.000Z';
+	searchByEvents(beginEvent,endEvent).then(plats => {
+		  var affichePlats='<b>Liste des plats :</b><br>';
+		  var ingredients=new Array();
+		  var cptIngredient=0;
+		  for(var i= 0; i < plats.length; i++){
+			  for(var j= 0; j < plats[i].ingredients.length; j++){
+				  ingredients[cptIngredient]=plats[i].ingredients[j];
+				  cptIngredient++;
+			  }
+			  affichePlats+=plats[i].nom+'<br>';
+			}
+		  affichePlats+='<b>Liste des courses :</b><br>';
+		  for (var i=0;i<ingredients.length;i++){
+			  affichePlats+=ingredients[i].quantite+ingredients[i].typeMesure +' '+ ingredients[i].nom+'<br>'; 
+		  }
+		  document.getElementById("divUnderMain").innerHTML=affichePlats; 
+	  });
+}
+
+function showMenuSemaine(){
+	const formPlat = `<div class="col-sm"  id="divFormPlat">
+	  	<form id="formMenuSemaine" class="form" onSubmit="return postSearchPlats()">
+		  <label for="dateDebut">Date début:</label>
+		  <input type="date" class="form-control" placeholder="Saissisez la date de debut" id="beginEvent">
+		  <label for="dateFin">Date de fin :</label>
+		  <input type="date" class="form-control" placeholder="Saisissez la date de fin" id="endEvent">
+		  <button type="submit" class="btn btn-primary">Rechercher</button>
+		</form>
+	</div>`;
+	document.getElementById("divMain").innerHTML=formPlat;
+}

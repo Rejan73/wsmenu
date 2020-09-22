@@ -22,7 +22,6 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import rod.menu.enums.TypeRepas;
 
 @Getter
 @Setter
@@ -37,8 +36,6 @@ public class Plat {
 	private Long id;
 	
 	private String nom;
-	private int nbPersonne;
-	private TypeRepas typerepas;
 	
 	@OneToMany(mappedBy = "plat", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
 	private List<Ingredient> ingredients;

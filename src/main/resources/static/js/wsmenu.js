@@ -80,3 +80,24 @@ async function deleteEventPlat(platId,instant) {
 	 .then((plat) => { return plat;  });
 }
 
+
+
+//ex "2020-09-09T18:01:53.515Z"
+async function searchByEvents(beginEvent,endEvent) {
+	 var eventSearch='{"beginEvent":"'+beginEvent+'","endEvent":"'+endEvent+'"}';
+	 return fetch('/plats/events',{
+	    method: 'POST', // *GET, POST, PUT, DELETE, etc.
+	    headers: {
+	        'Content-Type': 'application/json'
+	      },
+	    body: eventSearch
+	 })
+	 .then((response) => {
+	   if(response.ok) {
+	     return response.json();
+	   } else {
+	     throw new Error('Server response wasn\'t OK');
+	   }
+	 })
+	 .then((plats) => { return plats;  });
+}
