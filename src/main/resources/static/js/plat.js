@@ -124,13 +124,18 @@ function genereLinkGmailCalendar(eventdate,text,details,location,linktext){
 	return '<a target="_blank" href="http://www.google.com/calendar/event?action=TEMPLATE&dates='+dateBegin+'%2F'+dateEnd+'&text='+text+'&location='+location+'&details='+details+'">'+img+'</a>'
 }
 
+function removeLink(){
+	var img='<img src="img/calendar_off.png" title="supprimer" heigth="20" width="20">';
+	return '<a target="_blank" href="#">'+img+'</a>';
+}
+
 function callandFillPlat(eventdate) {
 	console.log('callandFillPlat:'+eventdate);
 	$('.events-today').html('<h5 class="text-center">No events found</h5 class="text-center">');
 	searchByEvent(eventdate).then(plats => {
 		  var affichePlats='';
 		  for(var i= 0; i < plats.length; i++){
-			  affichePlats+='<h5 class="text-center">'+plats[i].nom+' '+genereLinkGmailCalendar(eventdate,plats[i].nom,plats[i].nom,"ici","Ajouter au calendrier")+'</h5><br/>';
+			  affichePlats+='<h5 class="text-center">'+plats[i].nom+' '+genereLinkGmailCalendar(eventdate,plats[i].nom,plats[i].nom,"ici","Ajouter au calendrier")+removeLink()+'</h5><br/>';
 			}
 		  $('.events-today').html(affichePlats); 
 	  });
@@ -159,10 +164,30 @@ function postSearchPlats(beginEvent,endEvent){
 			  affichePlats+=plats[i].nom+'<br>';
 			}
 		  affichePlats+='<b>Liste des courses :</b><br>';
-		  for (var i=0;i<ingredients.length;i++){
-			  affichePlats+=ingredients[i].quantite+ingredients[i].typeMesure +' '+ ingredients[i].nom+'<br>'; 
+		  ingredients.sort(function compare(a, b) {
+			  if (a.nom < b.nom)
+			     return -1;
+			  if (a.nom > b.nom )
+			     return 1;
+			  return 0;
+			});
+		  var sumingredients=new Array();
+		  cptIngredient=0;
+		  sumingredients[0]=ingredients[0];
+		  for (var i=1;i<ingredients.length;i++){
+			  if (ingredients[i].nom==sumingredients[cptIngredient].nom){
+				  sumingredients[cptIngredient].quantite+=ingredients[i].quantite;
+			  }else {
+				  cptIngredient++;
+				  sumingredients[cptIngredient]=ingredients[i];
+			  }
 		  }
-		  document.getElementById("divUnderMain").innerHTML=affichePlats; 
+		  
+		  for (var i=0;i<sumingredients.length;i++){
+			  affichePlats+=sumingredients[i].quantite+sumingredients[i].typeMesure +' '+ sumingredients[i].nom+'<br>'; 
+		  }
+		  
+		  document.getElementById("divUnderMain").innerHTML=affichePlats+'<br>'+genereLinkGmailCalendar(beginEvent,"courses",affichePlats,"supermarche","Courses"); 
 	  });
 }
 
