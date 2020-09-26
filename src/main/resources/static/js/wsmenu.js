@@ -36,7 +36,10 @@ async function searchByEvent(instant) {
 	 })
 	 .then((response) => {
 	   if(response.ok) {
-	     return response.json();
+		 if (response.status==204){  
+			 return '';
+		 }
+		 return response.json();
 	   } else {
 	     throw new Error('Server response wasn\'t OK');
 	   }

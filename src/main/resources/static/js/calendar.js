@@ -58,12 +58,12 @@ function generateCalendar(){
                             </div> 
                             <div class="autocomplete" style="width:300px;">
     							<input id="myInput" type="text" name="myCountry" placeholder="Plat">
-    						</div>
-                            <div class="input-group events-input mb-3 col-10 mx-auto mt-2">
-                                <input type="text" class="form-control" placeholder="Add Event" id="eventTxt">
-                                <div class="input-group-append">
+    						<!-- </div>
+                            <div class="input-group events-input mb-3 col-10 mx-auto mt-2"> -->
+                                <input type="hidden" class="form-control" placeholder="Add Event" id="eventTxt">
+                               <!-- <div class="input-group-append"> -->
                                     <button class="btn btn-danger" type="button" id="createEvent">+</button>
-                                </div>
+                              <!--  </div> -->
                             </div>                        
                         </div>
                     </div>                            
@@ -92,6 +92,7 @@ function showCalendar(){
 	document.getElementById("divMain").innerHTML='<div class="col-sm" id="app"></div>';
 	document.getElementById('app').innerHTML = generateCalendar();
 	renderCalendar(month, year);
+	callandFillPlats();
 }
 
 
