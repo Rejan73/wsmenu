@@ -4,7 +4,7 @@
 
 	<groupId>rod.menu</groupId>
 	<artifactId>ws-menu</artifactId>
-	<version>1.0.0-RC2-SNAPSHOT</version>
+	<version>1.0.0</version>
 	<packaging>jar</packaging>
 
 	<name>ws-menu</name>
@@ -13,7 +13,7 @@
 		<developerConnection>scm:git:https://github.com/Rejan73/wsmenu.git</developerConnection>
 		<connection>scm:git:https://github.com/Rejan73/wsmenu.git</connection>
 		<url>https://github.com/Rejan73/wsmenu.git</url>
-	  <tag>HEAD</tag>
+	  <tag>ws-menu-1.0.0</tag>
   </scm>
 	<parent>
 		<groupId>org.springframework.boot</groupId>
