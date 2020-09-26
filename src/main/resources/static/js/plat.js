@@ -165,7 +165,7 @@ function postSearchPlats(beginEvent,endEvent){
 			});
 		  var sumingredients=new Array();
 		  cptIngredient=0;
-		  sumingredients[0]=ingredientscallRemoveventPlat[0];
+		  sumingredients[0]=ingredients[0];
 		  for (var i=1;i<ingredients.length;i++){
 			  if (ingredients[i].nom==sumingredients[cptIngredient].nom){
 				  sumingredients[cptIngredient].quantite+=ingredients[i].quantite;
