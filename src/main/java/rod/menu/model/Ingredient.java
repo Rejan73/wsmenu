@@ -10,8 +10,10 @@ import javax.persistence.JoinColumn;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToOne;
+import javax.validation.constraints.NotNull;
 
 import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.repository.NoRepositoryBean;
 
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.fasterxml.jackson.annotation.JsonAutoDetect.Visibility;
@@ -40,9 +42,11 @@ public class Ingredient {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 
-	
+	@NotNull
 	private String nom;
+	@NotNull
 	private TypeMesure typeMesure;
+	@NotNull
 	private int quantite;
 	
 	@OneToOne

@@ -37,11 +37,12 @@ public class PlatEndPoint {
 	public ResponseEntity<Plat> createPlat(@RequestBody Plat plat){
 		
 		Plat platToSave=new Plat();
-		platToSave.setNom(plat.getNom());
+		platToSave.setNom(plat.getNom().toLowerCase());
 		Plat createdPlat = platRepository.save(platToSave);
 		if (plat.getIngredients()!=null) {
 			for (Ingredient ingredient : plat.getIngredients()) {
 				ingredient.setPlat(createdPlat);
+				ingredient.setNom(ingredient.getNom().toLowerCase());
 				Ingredient createdIngredient= ingredientRepository.save(ingredient);
 				ingredient.setId(createdIngredient.getId());
 			}

@@ -21,6 +21,7 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.NonNull;
 import lombok.Setter;
 
 @Getter
@@ -34,7 +35,7 @@ public class Plat {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
-	
+	@NonNull
 	private String nom;
 	
 	@OneToMany(mappedBy = "plat", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
