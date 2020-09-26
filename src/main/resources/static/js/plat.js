@@ -61,13 +61,6 @@ function showFormPlat(){
 	  	<form id="formPlat" class="form" onSubmit="return postPlat()">
 		  <label for="nomPlat">Plat:</label>
 		  <input type="text" class="form-control" placeholder="Saissisez le nom du plat" id="nomPlat">
-		  <label for="quantite">nbPersonne:</label>
-		  <input type="text" class="form-control" placeholder="Saisissez la quantité" id="nbPersonne">
-		  <select class="form-control" id="typeRepas">
-		    <option value="entree">entrée</option>
-		    <option value="plat">plat</option>
-		    <option value="dessert">dessert</option>
-		  </select>
 		  <button type="submit" class="btn btn-primary">Ajouter</button>
 		</form>
 	</div>`;
@@ -75,7 +68,7 @@ function showFormPlat(){
 }
 
 function postPlat(){
-	dataToSend="{ \"nom\": \""+document.getElementById("nomPlat").value+"\",  \"nbPersonne\":"+ document.getElementById("nbPersonne").value+",  \"typerepas\":\""+document.getElementById("typeRepas").value+"\"}"
+	dataToSend="{ \"nom\": \""+document.getElementById("nomPlat").value+"\"}"
 	$.ajax({
 	    type: "POST",
 	    url: "/plats/",
@@ -124,9 +117,8 @@ function genereLinkGmailCalendar(eventdate,text,details,location,linktext){
 	return '<a target="_blank" href="http://www.google.com/calendar/event?action=TEMPLATE&dates='+dateBegin+'%2F'+dateEnd+'&text='+text+'&location='+location+'&details='+details+'">'+img+'</a>'
 }
 
-function removeLink(){
-	var img='<img src="img/calendar_off.png" title="supprimer" heigth="20" width="20">';
-	return '<a target="_blank" href="#">'+img+'</a>';
+function removeLink(platId,eventdate){
+	return '<img src="img/calendar_off.png" title="supprimer" heigth="20" width="20" onclick="callRemoveventPlat('+platId+',\''+eventdate+'\');">';
 }
 
 function callandFillPlat(eventdate) {
@@ -135,7 +127,7 @@ function callandFillPlat(eventdate) {
 	searchByEvent(eventdate).then(plats => {
 		  var affichePlats='';
 		  for(var i= 0; i < plats.length; i++){
-			  affichePlats+='<h5 class="text-center">'+plats[i].nom+' '+genereLinkGmailCalendar(eventdate,plats[i].nom,plats[i].nom,"ici","Ajouter au calendrier")+removeLink()+'</h5><br/>';
+			  affichePlats+='<h5 class="text-center">'+plats[i].nom+' '+genereLinkGmailCalendar(eventdate,plats[i].nom,plats[i].nom,"ici","Ajouter au calendrier")+removeLink(plats[i].id,eventdate)+'</h5><br/>';
 			}
 		  $('.events-today').html(affichePlats); 
 	  });
@@ -173,7 +165,7 @@ function postSearchPlats(beginEvent,endEvent){
 			});
 		  var sumingredients=new Array();
 		  cptIngredient=0;
-		  sumingredients[0]=ingredients[0];
+		  sumingredients[0]=ingredientscallRemoveventPlat[0];
 		  for (var i=1;i<ingredients.length;i++){
 			  if (ingredients[i].nom==sumingredients[cptIngredient].nom){
 				  sumingredients[cptIngredient].quantite+=ingredients[i].quantite;
@@ -202,4 +194,11 @@ function showMenuSemaine(){
 		</form>
 	</div>`;
 	document.getElementById("divMain").innerHTML=formPlat;
+}
+
+function  callRemoveventPlat(platId,eventdate){
+	//let eventDate = year+'-'+ (mois<10?'0'+mois:mois) +'-'+ (jour<10?'0'+jour:jour) +'T00:00:00.000Z';
+	console.log('callRemoveventPlat:'+platId+':'+eventdate);
+	deleteEventPlat(platId,eventdate).then(
+			callandFillPlat(eventdate));
 }
