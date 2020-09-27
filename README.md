@@ -1,5 +1,12 @@
 # wsmenu
 
+## Fonctionnalités
+wsmenu permet de gérer les menus de la semaine et de creer la liste de course
+- ajout/suppression de plat
+- ajout/suppression d'ingredients composant un plat
+- ajout d'un plat dans le calendrier et possibilité d'envoi d'un rdv gmail
+- consultation de la liste de plats et de course à faire possibilité d'envoi de rdv gmail de course à faire
+
 ## Installation
 
 - récupérer le tag et compiler les sources : 
@@ -38,6 +45,6 @@ swagger:
 - arrêter le script et changer l'application.yml create -> update
 - relancer le script ./wsmenu.sh &
 
-## utilisation
+## Utilisation
 Pour le site : http://127.0.0.1:8080
 Pour swagger : http://192.168.7.45:8080/swagger-ui.html
