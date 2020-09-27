@@ -38,3 +38,6 @@ swagger:
 - arrêter le script et changer l'application.yml create -> update
 - relancer le script ./wsmenu.sh &
 
+## utilisation
+Pour le site : http://127.0.0.1:8080
+Pour swagger : http://192.168.7.45:8080/swagger-ui.html
