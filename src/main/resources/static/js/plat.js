@@ -193,7 +193,7 @@ function showMenuSemaine(){
 		  <button type="submit" class="btn btn-primary">Rechercher</button>
 		</form>
 	</div>`;
-	document.getElementById("divMain").innerHTML=formPlat;
+	$("#divMain").html(formPlat);
 }
 
 function  callRemoveventPlat(platId,eventdate){

@@ -1,14 +1,18 @@
 package rod.menu.enums;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-
-@Getter
-@AllArgsConstructor
 public enum TypeMesure {
   ml("ml"),
   g("g"),
   u("u");
 	
-  private String label;
+  private TypeMesure(String label) {
+	this.label = label;
 }
+
+private String label;
+
+public String getLabel() {
+	return label;
+}
+}
+

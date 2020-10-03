@@ -18,16 +18,9 @@ import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.fasterxml.jackson.annotation.JsonAutoDetect.Visibility;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
 import lombok.NonNull;
-import lombok.Setter;
 
-@Getter
-@Setter
-@AllArgsConstructor
-@NoArgsConstructor
+
 @Entity
 @JsonIgnoreProperties(ignoreUnknown = true)
 @JsonAutoDetect(fieldVisibility = Visibility.NONE, getterVisibility = Visibility.PUBLIC_ONLY, setterVisibility = Visibility.NONE, isGetterVisibility = Visibility.PUBLIC_ONLY, creatorVisibility = Visibility.NONE)
@@ -46,6 +39,9 @@ public class Plat {
 	
 	@CreatedDate
 	private Instant createDate;
+	
+	
+	
 	
 	@Override
 	public int hashCode() {
@@ -75,6 +71,52 @@ public class Plat {
 		} else if (!nom.equals(other.nom))
 			return false;
 		return true;
+	}
+	
+	
+	public Plat() {
+		super();
+		this.createDate = Instant.now();
+
+	}
+
+	public Plat(Long id, @NonNull String nom, List<Ingredient> ingredients, List<Instant> events, Instant createDate) {
+		super();
+		this.id = id;
+		this.nom = nom;
+		this.ingredients = ingredients;
+		this.events = events;
+		this.createDate = createDate;
+	}
+	public Long getId() {
+		return id;
+	}
+	public void setId(Long id) {
+		this.id = id;
+	}
+	public String getNom() {
+		return nom;
+	}
+	public void setNom(String nom) {
+		this.nom = nom;
+	}
+	public List<Ingredient> getIngredients() {
+		return ingredients;
+	}
+	public void setIngredients(List<Ingredient> ingredients) {
+		this.ingredients = ingredients;
+	}
+	public List<Instant> getEvents() {
+		return events;
+	}
+	public void setEvents(List<Instant> events) {
+		this.events = events;
+	}
+	public Instant getCreateDate() {
+		return createDate;
+	}
+	public void setCreateDate(Instant createDate) {
+		this.createDate = createDate;
 	}
 	
 	

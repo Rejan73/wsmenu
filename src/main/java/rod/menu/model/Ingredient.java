@@ -13,22 +13,14 @@ import javax.persistence.OneToOne;
 import javax.validation.constraints.NotNull;
 
 import org.springframework.data.annotation.CreatedDate;
-import org.springframework.data.repository.NoRepositoryBean;
 
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.fasterxml.jackson.annotation.JsonAutoDetect.Visibility;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
 import rod.menu.enums.TypeMesure;
-@Getter
-@Setter
-@AllArgsConstructor
-@NoArgsConstructor
+
 @JsonIgnoreProperties(ignoreUnknown = true)
 @JsonAutoDetect(fieldVisibility = Visibility.NONE, getterVisibility = Visibility.PUBLIC_ONLY, setterVisibility = Visibility.NONE, isGetterVisibility = Visibility.PUBLIC_ONLY, creatorVisibility = Visibility.NONE)
 @Entity
@@ -85,6 +77,59 @@ public class Ingredient {
 		} else if (!nom.equals(other.nom))
 			return false;
 		return true;
+	}
+	
+	
+	public Ingredient() {
+		super();
+		this.createDate = Instant.now();
+	}
+	
+	public Ingredient(Long id, @NotNull String nom, @NotNull TypeMesure typeMesure, @NotNull int quantite, Plat plat,
+			Instant createDate) {
+		super();
+		this.id = id;
+		this.nom = nom;
+		this.typeMesure = typeMesure;
+		this.quantite = quantite;
+		this.plat = plat;
+		this.createDate = createDate;
+	}
+	public Long getId() {
+		return id;
+	}
+	public void setId(Long id) {
+		this.id = id;
+	}
+	public String getNom() {
+		return nom;
+	}
+	public void setNom(String nom) {
+		this.nom = nom;
+	}
+	public TypeMesure getTypeMesure() {
+		return typeMesure;
+	}
+	public void setTypeMesure(TypeMesure typeMesure) {
+		this.typeMesure = typeMesure;
+	}
+	public int getQuantite() {
+		return quantite;
+	}
+	public void setQuantite(int quantite) {
+		this.quantite = quantite;
+	}
+	public Plat getPlat() {
+		return plat;
+	}
+	public void setPlat(Plat plat) {
+		this.plat = plat;
+	}
+	public Instant getCreateDate() {
+		return createDate;
+	}
+	public void setCreateDate(Instant createDate) {
+		this.createDate = createDate;
 	}
 	
 }
