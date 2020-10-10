@@ -89,8 +89,7 @@ function generateCalendar(){
 
 function showCalendar(){
 	clearDiv();
-	document.getElementById("divMain").innerHTML='<div class="col-sm" id="app"></div>';
-	document.getElementById('app').innerHTML = generateCalendar();
+	$("#divMain").html('<div class="col-sm" id="app">'+generateCalendar()+'</div>');
 	renderCalendar(month, year);
 	callandFillPlats();
 }
@@ -164,7 +163,7 @@ $(function(){
         }
         function removeEvent(id){function showCalendar(){
         	clearDiv();
-        	document.getElementById("divMain").innerHTML='<div class="col-sm" id="app"></div>';
+        	$("#divMain").html('<div class="col-sm" id="app"></div>');
         	App();
         }
             let storedEvents = JSON.parse(localStorage.getItem('events'));

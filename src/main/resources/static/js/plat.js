@@ -4,9 +4,7 @@ function findAllPlat(){
 	$.ajax({
 		 url: "/plats"
 	 }).then(function(data){
-		 document.getElementById("divMain").innerHTML='<div class="col-sm" id="divDetailPlat" style="visibility:hidden;"></div>';
-		 document.getElementById("divDetailPlat" ).innerHTML=generateTable("Liste des Plats", data,"findPlat","deletePlat");
-		 document.getElementById("divDetailPlat").style.visibility = "visible";
+		 $("#divMain").html('<div class="col-sm" id="divDetailPlat">'+generateTable("Liste des Plats", data,"findPlat","deletePlat")+'</div>');
 	 });
 }
 
@@ -15,9 +13,7 @@ function findPlat(id){
 	$.ajax({
 		 url: "/plats/"+id
 	 }).then(function(data){
-		 document.getElementById("divMain").innerHTML='<div class="col-sm" id="divDetailPlat" style="visibility:hidden;"></div>';
-		 document.getElementById("divDetailPlat" ).innerHTML=generateTable3("Détail "+data.nom, data.ingredients,"showFormIngredient","removeIngredientToPlat",data.id);
-		 document.getElementById("divDetailPlat").style.visibility = "visible";
+		 $("#divMain").html('<div class="col-sm" id="divDetailPlat" style="visibility:hidden;">'+generateTable3("Détail "+data.nom, data.ingredients,"showFormIngredient","removeIngredientToPlat",data.id)+'</div>');
 	 });
 }
 function showFormIngredient(id){
@@ -37,7 +33,7 @@ function showFormIngredient(id){
 		  <button type="submit" class="btn btn-primary">Ajouter</button>
 		</form>
 	</div>`;
-	document.getElementById("divUnderMain").innerHTML=formIngredient;
+	$("#divUnderMain").html(formIngredient);
 	document.getElementById("platid").value=id;
 
 }
@@ -64,7 +60,7 @@ function showFormPlat(){
 		  <button type="submit" class="btn btn-primary">Ajouter</button>
 		</form>
 	</div>`;
-	document.getElementById("divUnderMain").innerHTML=formPlat;
+	$("#divUnderMain").html(formPlat);
 }
 
 function postPlat(){
@@ -179,7 +175,7 @@ function postSearchPlats(beginEvent,endEvent){
 			  affichePlats+=sumingredients[i].quantite+sumingredients[i].typeMesure +' '+ sumingredients[i].nom+'<br>'; 
 		  }
 		  
-		  document.getElementById("divUnderMain").innerHTML=affichePlats+'<br>'+genereLinkGmailCalendar(beginEvent,"courses",affichePlats,"supermarche","Courses"); 
+		  	$("#divUnderMain").html(affichePlats+'<br>'+genereLinkGmailCalendar(beginEvent,"courses",affichePlats,"supermarche","Courses")); 
 	  });
 }
 

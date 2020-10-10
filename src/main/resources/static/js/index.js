@@ -1,6 +1,6 @@
 function clearDiv() {
-  document.getElementById("divMain").innerHTML= "";
-  document.getElementById("divUnderMain").innerHTML= "";
+  $("#divMain").html('');
+  $("#divUnderMain").html('');
 }	
 
 function generateTable(title, data,showFunction, deleteFuncion){
