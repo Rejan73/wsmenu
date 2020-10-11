@@ -13,7 +13,7 @@ function findPlat(id){
 	$.ajax({
 		 url: "/plats/"+id
 	 }).then(function(data){
-		 $("#divMain").html('<div class="col-sm" id="divDetailPlat" style="visibility:hidden;">'+generateTable3("Détail "+data.nom, data.ingredients,"showFormIngredient","removeIngredientToPlat",data.id)+'</div>');
+		 $("#divMain").html('<div class="col-sm" id="divDetailPlat">'+generateTable3("Détail "+data.nom, data.ingredients,"showFormIngredient","removeIngredientToPlat",data.id)+'</div>');
 	 });
 }
 function showFormIngredient(id){
